@@ -1,0 +1,4 @@
+syntax: glob
+electap-app/node_modules
+.DS_Store
+electap-app/dist
