@@ -103,6 +103,7 @@ export class Game {
             player.vel.y = 0;
         }
     }
+    
 
     private onBlockUpdate(engine: Engine, block: BlockBase, addAction: (offset: number) => void): void {
         const fieldBounds = block.getFieldBounds();
