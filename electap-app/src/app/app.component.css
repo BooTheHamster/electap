@@ -1,0 +1,14 @@
+.background {
+    background-color: #CBC6AF;
+    width: auto;
+    height: auto;
+}
+
+.canvas-container {
+    margin: auto;
+    width: 500px;
+    height: 700px;
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #B0AB97;
+}
