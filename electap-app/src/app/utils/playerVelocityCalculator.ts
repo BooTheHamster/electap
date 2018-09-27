@@ -1,3 +1,4 @@
+import { AffectedPolarity } from './../common/polarity';
 import { Polarity } from '../common/polarity';
 
 /**
@@ -12,32 +13,32 @@ export class PlayerVelocityCalculator {
      * @param playerPolarity Полярность игрока.
      * @returns Значение боковой скорости игрока.
      */
-    public static calculateVelocityX(affectedPolarities: Set<Polarity>, playerPolarity: Polarity): number {
+    public static calculateVelocityX(affectedPolarity: AffectedPolarity, playerPolarity: Polarity): number {
 
-        if (affectedPolarities.size !== 1) {
+        if (affectedPolarity.polarity === Polarity.None) {
             return 0;
         }
 
-        const blockPolarity = affectedPolarities.values().next().value;
+        const velocity = this.BaseVelocityX * affectedPolarity.factor;
 
-        if (blockPolarity === playerPolarity) {
-            switch (blockPolarity) {
+        if (affectedPolarity.polarity === playerPolarity) {
+            switch (affectedPolarity.polarity) {
                 case Polarity.Positive: {
-                    return -this.BaseVelocityX;
+                    return -velocity;
                 }
 
                 case Polarity.Negative: {
-                    return this.BaseVelocityX;
+                    return velocity;
                 }
             }
         } else {
-            switch (blockPolarity) {
+            switch (affectedPolarity.polarity) {
                 case Polarity.Positive: {
-                    return this.BaseVelocityX;
+                    return velocity;
                 }
 
                 case Polarity.Negative: {
-                    return -this.BaseVelocityX;
+                    return -velocity;
                 }
             }
         }

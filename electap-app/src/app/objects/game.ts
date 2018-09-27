@@ -103,7 +103,6 @@ export class Game {
             player.vel.y = 0;
         }
     }
-    
 
     private onBlockUpdate(engine: Engine, block: BlockBase, addAction: (offset: number) => void): void {
         const fieldBounds = block.getFieldBounds();
@@ -115,16 +114,18 @@ export class Game {
             return;
         }
 
-        const isBlockFieldCollide = BlockAndPlayerCollider.IsCollide(fieldBounds, playerBounds);
+        const blockFieldCollideFactor = BlockAndPlayerCollider.GetBlockCollideFactor(fieldBounds, playerBounds);
+        const isBlockFieldCollide = blockFieldCollideFactor > 0;
         block.setIsCollide(isBlockFieldCollide);
+
         if (isBlockFieldCollide) {
-            this._playerAffectedFieldsService.addBlock(block);
+            this._playerAffectedFieldsService.addBlock(block, blockFieldCollideFactor);
         } else {
             this._playerAffectedFieldsService.removeBlock(block);
         }
 
         this._player.vel.x = PlayerVelocityCalculator.calculateVelocityX(
-            this._playerAffectedFieldsService.getPlayerAffectedPolarities(),
+            this._playerAffectedFieldsService.getPlayerAffectedPolarity(),
             this._player.Polarity);
 
         const bounds = engine.getWorldBounds();
