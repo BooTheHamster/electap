@@ -8,19 +8,25 @@ export class BlockAndPlayerCollider {
     }
 
     public static GetBlockCollideFactor(blockBounds: BoundingBox, playerBounds: PlayerBounds): number {
-        const nearestX = Math.max(blockBounds.left, Math.min(playerBounds.x, blockBounds.right));
-        const nearestY = Math.max(blockBounds.top, Math.min(playerBounds.y, blockBounds.bottom));
+        const nearestX = Math.max(blockBounds.left, Math.min(playerBounds.position.x, blockBounds.right));
+        const nearestY = Math.max(blockBounds.top, Math.min(playerBounds.position.y, blockBounds.bottom));
 
-        const deltaX = playerBounds.x - nearestX;
-        const deltaY = playerBounds.y - nearestY;
+        const deltaX = playerBounds.position.x - nearestX;
+        const deltaY = playerBounds.position.y - nearestY;
         const delta = deltaX * deltaX + deltaY * deltaY;
         const radius = playerBounds.radius * playerBounds.radius;
 
         if (delta < radius) {
 
-            return delta === 0
-                ? 0.1
-                : delta;
+            let factor = delta === 0
+                ? radius
+                : radius - delta;
+
+            if (blockBounds.contains(playerBounds.position)) {
+                factor += radius;
+            }
+
+            return factor;
         }
 
         return 0;

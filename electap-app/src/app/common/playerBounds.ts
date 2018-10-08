@@ -1,16 +1,13 @@
+import { Vector } from 'excalibur';
+
 /**
  * Информация о позиции игрока.
  */
 export class PlayerBounds {
     /**
-     * Координата X позиции игрока.
+     * Координаты позиции игрока.
      */
-    public readonly x: number;
-
-    /**
-     * Координата Y позиции игрока.
-     */
-    public readonly y: number;
+    public readonly position: Vector;
 
     /**
      * Радиус игрока.
@@ -18,8 +15,7 @@ export class PlayerBounds {
     public readonly radius: number;
 
     constructor(x: number, y: number, radius: number) {
-        this.x = x;
-        this.y = y;
+        this.position = new Vector(x, y);
         this.radius = radius;
     }
 }

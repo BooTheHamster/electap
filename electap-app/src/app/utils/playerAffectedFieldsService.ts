@@ -41,17 +41,19 @@ export class PlayerAffectedFieldsService {
     }
 
     public getPlayerAffectedPolarity(): AffectedPolarity {
-        const resultPolarity = this._positivePolarityFactor - this._negativePolarityFactor;
+        const polarityFactorDelta = this._positivePolarityFactor - this._negativePolarityFactor;
+        const totalFactor = this._positivePolarityFactor + this._negativePolarityFactor;
+        const resultFactor = Math.abs(polarityFactorDelta) / totalFactor;
 
-        if (resultPolarity === 0) {
+        if (polarityFactorDelta === 0) {
             return new AffectedPolarity(Polarity.None, 0);
         }
 
-        if (resultPolarity > 0) {
-            return new AffectedPolarity(Polarity.Positive, resultPolarity / this._positivePolarityFactor);
-        }
+        const resultPolarity = polarityFactorDelta > 0
+            ? Polarity.Positive
+            : Polarity.Negative;
 
-        return new AffectedPolarity(Polarity.Negative, -resultPolarity / this._negativePolarityFactor);
+        return new AffectedPolarity(resultPolarity, resultFactor);
     }
 
     public clearAll(): void {
