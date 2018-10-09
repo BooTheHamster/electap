@@ -36,7 +36,9 @@ export class PlayerAffectedFieldsService {
         this.decreaseAffectedFactor(block);
         this._affectedBlocks.delete(block);
 
-        if (this._affectedBlocks.size === 0 && (this._negativePolarityFactor > 0 || this._positivePolarityFactor > 0)) {
+        if (this._affectedBlocks.size === 0) {
+            this._negativePolarityFactor = 0;
+            this._positivePolarityFactor = 0;
         }
     }
 
